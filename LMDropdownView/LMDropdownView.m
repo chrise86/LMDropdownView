@@ -149,15 +149,15 @@
         self.menuView = [[UIView alloc] init];
     }
     self.menuView.backgroundColor = self.menuBackgroundColor;
-    [self.menuContentView setFrame:CGRectMake(0, kDefaultBounceHeight, self.menuContentView.bounds.size.width, self.menuContentView.bounds.size.height)];
+    [self.menuContentView setFrame:CGRectMake(0, 0, self.menuContentView.bounds.size.width, self.menuContentView.bounds.size.height)];
     [self.menuView addSubview:self.menuContentView];
     
-    CGFloat menuTableViewHeight = MIN(self.menuContentView.bounds.size.height + kDefaultBounceHeight, self.mainView.bounds.size.height);
-    [self.menuView setFrame:CGRectMake(0, -menuTableViewHeight, self.mainView.bounds.size.width, menuTableViewHeight)];
+    CGFloat menuTableViewHeight = MIN(self.menuContentView.bounds.size.height, self.mainView.bounds.size.height);
+    [self.menuView setFrame:CGRectMake(0, [[UIScreen mainScreen] bounds].size.height, self.mainView.bounds.size.width, menuTableViewHeight)];
     [self.mainView addSubview:self.menuView];
     
-    originMenuCenter = CGPointMake(self.menuView.bounds.size.width/2, -self.menuView.bounds.size.height/2);
-    desMenuCenter = CGPointMake(self.menuView.bounds.size.width/2, self.menuView.bounds.size.height/2 - kDefaultBounceHeight);
+    originMenuCenter = CGPointMake(self.menuView.bounds.size.width/2, [[UIScreen mainScreen] bounds].size.height - self.menuView.bounds.size.height/2);
+    desMenuCenter = CGPointMake(self.menuView.bounds.size.width/2, [[UIScreen mainScreen] bounds].size.height - self.menuView.bounds.size.height - kDefaultBounceHeight);
 }
 
 - (void)backgroundButtonTapped:(id)sender
@@ -217,12 +217,12 @@
     
     if (state == LMDropdownViewStateWillOpen || state == LMDropdownViewStateDidOpen)
     {
-        [values addObject:[NSValue valueWithCGPoint:CGPointMake(menuPositionX, desMenuCenter.y + 20)]];
+        [values addObject:[NSValue valueWithCGPoint:CGPointMake(menuPositionX, desMenuCenter.y - 20)]];
         [values addObject:[NSValue valueWithCGPoint:CGPointMake(menuPositionX, desMenuCenter.y)]];
     }
     else
     {
-        [values addObject:[NSValue valueWithCGPoint:CGPointMake(menuPositionX, menuPositionY + 20)]];
+        [values addObject:[NSValue valueWithCGPoint:CGPointMake(menuPositionX, menuPositionY - 20)]];
         [values addObject:[NSValue valueWithCGPoint:CGPointMake(menuPositionX, originMenuCenter.y)]];
     }
     
